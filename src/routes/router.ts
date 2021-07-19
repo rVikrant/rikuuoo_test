@@ -1,5 +1,5 @@
 import * as Router from "koa-router";
-import authentication from "../middleware/auth";
+import authentication from "../middleware1/auth";
 import { demoRouter as demoget} from "./demo/demo"
 const router = new Router();
 
