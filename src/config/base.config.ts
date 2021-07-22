@@ -83,16 +83,16 @@ class EnvConfig {
                 EMAIL: "EMAIL",
                 PHONE: "PHONE"
             }
-        },
+        }
+    })
 
-        public NOTIFICATION_CODE = Object.freeze({
-            SMS: {
-                USER_OTP_VERIFICATION: 'USER_OTP_VERIFICATION',
-            },
-            EMAIL: {
-                USER_OTP_VERIFICATION: 'USER_OTP_VERIFICATION'
-            }
-        })
+    public NOTIFICATION_CODE = Object.freeze({
+        SMS: {
+            USER_OTP_VERIFICATION: 'USER_OTP_VERIFICATION',
+        },
+        EMAIL: {
+            USER_OTP_VERIFICATION: 'USER_OTP_VERIFICATION'
+        }
     })
 }
 
