@@ -2,8 +2,29 @@
 
 // dependencies
 // import {imageSize} from 'image-size';
+import * as bcrypt from "bcryptjs";
 const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
+
+export const bCryptData = async (data):Promise<string> => {             // bcryptjs encryption
+    return new Promise((resolve, reject) => {
+        bcrypt.genSalt(10, function (err, salt) {
+            bcrypt.hash(data, salt).then(result => {
+                resolve(result)
+            })
+        })
+    })
+};
+
+export const compareCryptData = (data, hash) => {       // bcryptjs matching
+    return new Promise((resolve, reject) => {
+        bcrypt.compare(data, hash).then(result => {
+            resolve(result)
+        }).catch(err => {
+            reject(err)
+        })
+    })
+};
 
 export let isJsonString = function (str) {
     try {
@@ -123,6 +144,62 @@ export let sendSuccess = function (statusObj, language, data) {
     else
         customSuccess.data = null
     return customSuccess;
+}
+
+export let consolelog = function (cwd: string, identifier: string, value: any, isSuccess: boolean, logFunction?: string) {
+    try {
+        if (
+            (isSuccess) || (!isSuccess)
+        ) {
+            let color = {
+                white: '\u001b[37m',
+                reset: '\u001b[0m',
+                red: '\u001b[31m',
+                green: '\u001b[32m',
+                yellow: '\u001b[33m',
+                blue: '\u001b[34m',
+                magenta: '\u001b[35m',
+                cyan: '\u001b[36m',
+            }
+            let service = "";
+            if (cwd.slice(cwd.length - 3) === '.js') {
+                let cwdlen = cwd.split('/')
+                service = cwdlen.slice(cwdlen.length - 5).join("/");
+            } else service = cwd.split('/')[cwd.split('/').length - 1]
+            if (!logFunction) logFunction = 'info'
+            let seperator = "--------------"
+            let keyword = "INFO"
+            let selColor = color.green
+
+            if (!isSuccess) {
+                seperator = "=============="
+                keyword = "ERROR"
+                selColor = color.red
+            }
+            if (value instanceof Error)
+                console.log(`${selColor}${keyword}: ${service}${color.white} ${seperator} ${color.cyan}${identifier}${color.white} ${seperator} ${JSON.stringify(value, Object.getOwnPropertyNames(value))}`);
+            else {
+                switch (typeof value) {
+                    case "object":
+                    case "undefined": {
+                        if (JSON.stringify(value) == "{}")
+                            console.log(`${selColor}${keyword}: ${service}${color.white} ${seperator} ${color.cyan}${identifier}${color.white} ${seperator} ${JSON.stringify(value, null, 0)}`);
+                        else
+                            console.log(`${selColor}${keyword}: ${service}${color.white} ${seperator} ${color.cyan}${identifier}${color.white} ${seperator} ${JSON.stringify(value, null, 0)}`);
+                        break;
+                    }
+                    default: {
+                        console.log(`${selColor}${keyword}: ${service}${color.white} ${seperator} ${color.cyan}${identifier}${color.white} ${seperator} ${value}`);
+                        break;
+                    }
+                }
+            }
+
+        }
+        return
+    } catch (error) {
+        return
+    }
 }
 
 // function to get image dimensions

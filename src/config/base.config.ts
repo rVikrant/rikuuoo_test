@@ -29,6 +29,7 @@ class EnvConfig {
             },
 
             TOKEN: {
+                OWNER_AUTH: "OWNER_AUTH",
                 GUEST_AUTH: "GUEST_AUTH",
                 USER_AUTH: "USER_AUTH",
                 REFRESH_AUTH: "REFRESH_AUTH"
