@@ -9,6 +9,7 @@ import * as path from "path";
 
 // local dependencies
 import auth from './auth';
+import handleErrors from './error'
 import basicAuth from './basic.auth';
 
 console.log(path.resolve("./uploads"));
@@ -18,6 +19,7 @@ export default function middleware() {
     return Compose([
         Cors(),
         Logger(),
+        handleErrors(),
         serve('./uploads'),
         BodyParser({ formLimit: '100mb', jsonLimit: '100mb' }),
     ])
