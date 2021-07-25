@@ -165,7 +165,7 @@ export class DAOManager {
         try {
             // utils.console.log('aggregateArray', JSON.stringify(aggregateArray), true)
             let ModelName = Models[model]
-            console.log(__filename, 'aggregate pipeline', JSON.stringify(aggregateArray), true)
+            console.log(__filename, 'aggregate pipeline', JSON.stringify(aggregateArray), ModelName, model, true)
             let aggregation = ModelName.aggregate(aggregateArray);
             //@ts-ignore
             if (options) { aggregation.options = options; }

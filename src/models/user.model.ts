@@ -1,11 +1,27 @@
-import {Document, Schema, Model, model} from 'mongoose';
+import {Document, Schema, model} from 'mongoose';
+
+// local
+import { SET_NAME, ENV_CONFIG } from '../config';
+
+const {ACTIVE, INACTIVE} = ENV_CONFIG.DATABASE.TYPE.STATUS;
+
+export interface IUser extends Document {
+    lastName: string,
+    firstName: string,
+    createdAt: number,
+    userGroupId: string | null,
+    lastLoggedIn: number,
+};
 
 
 const UserSchema = new Schema({
-    status: { type: String, enum: ["ACTIVE", "INACTIVE"], default: "ACTIVE" },
+    lastName: {type: String, required: true},
+    firstName: {type: String, required: true},
+    userGroupId: {type: Schema.Types.ObjectId, ref: SET_NAME.GROUP, index: true},
+    lastLoggedIn: {type: Number, required: true},
+
+    status: { type: String, enum: [ACTIVE, INACTIVE], default: ACTIVE },
     createdAt: { type: Number, default: Date.now() },
 });
 
-const User = model('User', UserSchema);
-
-export { User } ;
+export let users = model<IUser>(SET_NAME.USER, UserSchema);

@@ -41,14 +41,14 @@ gulp.task("compile", function () {
 gulp.task('local', function () {
 	pm2.connect(true, function () {
 		pm2.start({
-			name: 'loop-health',
+			name: 'rikkuuoo',
 			script: 'server.js',
 			env: {
 				"NODE_ENV": "default",
-				// "BRAND": arg.brand
+				"BRAND": arg.brand
 			}
 		}, function () {
-			pm2.streamLogs('loop-health', 0);
+			pm2.streamLogs('rikkuuoo', 0);
 		});
 	});
 });
@@ -56,14 +56,14 @@ gulp.task('local', function () {
 gulp.task('dev', function () {
 	pm2.connect(true, function () {
 		pm2.start({
-			name: 'loop-health',
+			name: 'rikkuuoo',
 			script: 'server.js',
 			env: {
 				"NODE_ENV": "development",
-				// "BRAND": arg.brand
+				"BRAND": arg.brand
 			}
 		}, function () {
-			pm2.streamLogs('loop-health', 0);
+			pm2.streamLogs('rikkuuoo', 0);
 		});
 	});
 });

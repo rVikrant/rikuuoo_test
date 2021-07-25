@@ -1,3 +1,3 @@
 export { ENV_CONFIG } from './base.config';
-export { SET_NAME, MIDDLEWARE } from './enum';
-export { STATUS_MSG, CONF, MESSAGE_CONSTANT } from './message.constant';
+export { SET_NAME, GROUP, MIDDLEWARE } from './enum';
+export { STATUS_MSG, MESSAGE_CONSTANT } from './message.constant';

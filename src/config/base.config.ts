@@ -2,11 +2,13 @@
 class EnvConfig {
     constructor() { }
 
-    public SERVER
+    public SERVER = {
+        BRAND: process.env.BRAND
+    }
 
     public DATABASE = Object.freeze({
         APP: {
-            BELIEVING: 'BELIEVING'
+            RIKOOUU: 'RIKOOUU'
         },
 
         VERSION: {
@@ -19,7 +21,7 @@ class EnvConfig {
 
         TYPE: {
             API_CHANNEL: {
-                BELIEVING_WEB_APP: "beleivingWebApp"
+                RIKOOUU_TEST: "rikoouutest"
             },
 
             CONFIG: {
@@ -41,30 +43,6 @@ class EnvConfig {
                 WEB: 'WEB'
             },
 
-            SOCIAL_PLATFORM: {
-                GOOGLE: "GOOGLE",
-                FB: "FB",
-                APPLE: "APPLE"
-            },
-
-            APP_VERSION: {
-                FORCE: "FORCE",
-                SKIP: "SKIP",
-                NORMAL: "NORMAL"
-            },
-
-            ACTIVITY_LOG: {
-                FAIL_Q: "FAIL_Q",
-                REQUEST: "REQUEST"
-            },
-
-            ACTIVITY_LOG_ID_INFO: {
-                USER_ID: "USER_ID",
-                PHONE_NO: "PHONE_NO",
-                EMAIL: "EMAIL",
-                FEEDBACK_ID: "FEEDBACK_ID"
-            },
-
             STATUS: {
                 INACTIVE: 0,
                 ACTIVE: 1
@@ -72,26 +50,7 @@ class EnvConfig {
 
             PAGINATION: {
 
-            },
-
-            NOTIFICATION: {
-                SMS: "SMS",
-                EMAIL: "EMAIL",
-            },
-
-            OTP_VIA: {
-                EMAIL: "EMAIL",
-                PHONE: "PHONE"
             }
-        }
-    })
-
-    public NOTIFICATION_CODE = Object.freeze({
-        SMS: {
-            USER_OTP_VERIFICATION: 'USER_OTP_VERIFICATION',
-        },
-        EMAIL: {
-            USER_OTP_VERIFICATION: 'USER_OTP_VERIFICATION'
         }
     })
 }

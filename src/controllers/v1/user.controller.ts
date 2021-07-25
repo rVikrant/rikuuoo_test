@@ -1,63 +1,55 @@
 "use strict";
 
 // local dependencies
-import {UserEV1} from '../../entity';
-import {STATUS_MSG, ENV_CONFIG} from '../../config';
-
-class OwnerControllerV1 {
+import * as ENTITY from '../../entity';
+class UserControllerV1 {
 
     constructor() { };
 
     /**
-    * @method POST
-    * @param {string} email : user email
-    * @param {string} password : user password min 6 chars
+    * @method GET
+    * @param {number} pageNumber : page no
+    * @param {number} perPage : docs limit per page
+    * @param {object} groups : groups name to fetch data as per group
     * */
-    async save(payload: IOwnerRequestV1.IOwnerSignIn) {
+    async fetchUsers(payload: IUserRequestV1.IFetchUsers) {
         try {
-            console.log("add Owner controller------");
+            // console.log("fetchUsers controller------");
 
-            //@ts-ignore
-            payload.password = await bCryptData(payload.password);
+            let res: any = {};
 
-            let newUser:any = await UserEV1.saveUser(payload);
-            let token: string = await UserEV1.createTokenAndUpdateUser({id: newUser._id, tokenType: ENV_CONFIG.DATABASE.TYPE.TOKEN.OWNER_AUTH});
+            if(payload.groups && Object.keys(payload.groups).length) {
+                let data = await ENTITY.UserGroupEV1.fetchGroupUsers(payload);
 
-            newUser.accessToken = token;
+                for(let group of Object.keys(payload.groups)) {
+                    res[group] = {
+                        data: data[group] && data[group][0] && data[group][0].users || [],
+                        pagination: {
+                            perPage: payload.groups[group].perPage,
+                            pageNumber: payload.groups[group].pageNumber,
+                            totalCount: data[group] && data[group][0] && data[group][0].totalCount || 0
+                        }
+                    }
+                }
+            } else {
+                let {totalCount, data} = await ENTITY.UserEV1.fetchUsers(payload);
 
-            return newUser;
+                res = {
+                    data,
+                    pagination: {
+                        perPage: payload.perPage,
+                        pageNumber: payload.pageNumber,
+                        totalCount
+                    }
+                }
+            }
+
+            return res;
         } catch (e) {
-            console.log("error in add Owner--", e);
+            // console.log("error in fetch users controller--", e);
             throw e;
         }
-    }
-
-    async login(payload: IOwnerRequestV1.IOwnerSignIn) {
-        try {
-            console.log("login Owner controller------");
-
-            return await UserEV1.loginUser(payload, ENV_CONFIG.DATABASE.TYPE.TOKEN.OWNER_AUTH);
-        } catch (e) {
-            console.log("error in login Owner--", e);
-            throw e;
-        }
-    }
-
-    /**
-    * @method POST
-    * */
-    async logout(user: any) {
-        try {
-            console.log("Owner logout fn controller---");
-            await UserEV1.logoutUser(user.id || user._id);
-    
-            return {};
-
-        } catch(e) {
-            throw e;
-        }
-
     }
 }
 
-export const ownerControllerV1 = new OwnerControllerV1();
+export const userControllerV1 = new UserControllerV1();

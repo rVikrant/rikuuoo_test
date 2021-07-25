@@ -5,6 +5,10 @@
 import * as bcrypt from "bcryptjs";
 const { promisify } = require('util');
 const sizeOf = promisify(require('image-size'));
+import * as moment from 'moment';
+
+// local
+import * as Constant from "../config";
 
 export const bCryptData = async (data):Promise<string> => {             // bcryptjs encryption
     return new Promise((resolve, reject) => {
@@ -35,7 +39,7 @@ export let isJsonString = function (str) {
     return true;
 }
 
-export let sendError = function (error, language: string = "En") {
+export let sendError = function (error, language: string = Constant.ENV_CONFIG.DATABASE.LANGUAGE.EN) {
     let customError: IHelper.IResponseObj = Object.assign({}, {
         "statusCode": 400,
         "httpCode": 400,
@@ -85,56 +89,56 @@ export let sendError = function (error, language: string = "En") {
     return {
         statusCode: customError.statusCode,
         httpCode: customError.httpCode,
-        // payload: statusMsgI18(customError, language, customeMessage),
+        payload: statusMsgI18(customError, language, customeMessage),
         headers: {}
     }
 }
 
-// export let statusMsgI18 = function (statusObj: IHelper.IResponseObj, language: string, customeMessage?: string) {
-//     let returnStatusObj: IHelper.IResponseObj = Object.assign({}, statusObj)
-//     language = "En";
-//     if (Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type]) {
-//         returnStatusObj.message = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type][language]
-//         returnStatusObj.attributes = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].attributes
-//         returnStatusObj.heading = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].heading
-//         returnStatusObj.note = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].note
-//         if (statusObj.hasOwnProperty('identifier')) {
-//             if (statusObj.identifier && statusObj.identifier.length > 0) {
-//                 returnStatusObj.identifier = statusObj.identifier
-//                 statusObj.identifier.forEach(obj => {
-//                     if (obj.typeof == "date")
-//                         obj.value = moment(obj.value).format("h:mm A")
-//                     returnStatusObj.message = returnStatusObj.message.replace(obj.name, obj.value)
-//                     returnStatusObj.note = {
-//                         En: (returnStatusObj.note.En && returnStatusObj.note.En != "") ? returnStatusObj.note.En.replace(obj.name, obj.value) : "",
-//                         Ar: (returnStatusObj.note.Ar && returnStatusObj.note.Ar != "") ? returnStatusObj.note.Ar.replace(obj.name, obj.value) : ""
-//                     }
-//                 })
-//             } else
-//                 returnStatusObj.identifier = []
-//         } else {
-//             if (Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].identifier && Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].identifier.length > 0) {
-//                 Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].identifier.forEach(obj => {
-//                     if (obj.typeof == "date")
-//                         obj.value = moment(obj.value).format("h:mm A")
-//                     returnStatusObj.message = returnStatusObj.message.replace(obj.name, obj.value)
-//                     returnStatusObj.note = {
-//                         En: (returnStatusObj.note.En && returnStatusObj.note.En != "") ? returnStatusObj.note.En.replace(obj.name, obj.value) : "",
-//                         Ar: (returnStatusObj.note.Ar && returnStatusObj.note.Ar != "") ? returnStatusObj.note.Ar.replace(obj.name, obj.value) : ""
-//                     }
-//                 })
-//             } else
-//                 returnStatusObj.identifier = []
-//         }
-//     } else {
-//         returnStatusObj.message = customeMessage ? customeMessage : Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND].DEFAULT_ERROR.En;
-//         returnStatusObj.attributes = []
-//         returnStatusObj.heading = {}
-//         returnStatusObj.note = {}
-//         returnStatusObj.identifier = []
-//     }
-//     return returnStatusObj
-// }
+export let statusMsgI18 = function (statusObj: IHelper.IResponseObj, language: string, customeMessage?: string) {
+    let returnStatusObj: IHelper.IResponseObj = Object.assign({}, statusObj)
+    language = Constant.ENV_CONFIG.DATABASE.LANGUAGE.EN;
+    if (Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type]) {
+        returnStatusObj.message = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type][language]
+        returnStatusObj.attributes = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].attributes
+        returnStatusObj.heading = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].heading
+        returnStatusObj.note = Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].note
+        if (statusObj.hasOwnProperty('identifier')) {
+            if (statusObj.identifier && statusObj.identifier.length > 0) {
+                returnStatusObj.identifier = statusObj.identifier
+                statusObj.identifier.forEach(obj => {
+                    if (obj.typeof == "date")
+                        obj.value = moment(obj.value).format("h:mm A")
+                    returnStatusObj.message = returnStatusObj.message.replace(obj.name, obj.value)
+                    returnStatusObj.note = {
+                        En: (returnStatusObj.note.En && returnStatusObj.note.En != "") ? returnStatusObj.note.En.replace(obj.name, obj.value) : "",
+                        Ar: (returnStatusObj.note.Ar && returnStatusObj.note.Ar != "") ? returnStatusObj.note.Ar.replace(obj.name, obj.value) : ""
+                    }
+                })
+            } else
+                returnStatusObj.identifier = []
+        } else {
+            if (Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].identifier && Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].identifier.length > 0) {
+                Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND][returnStatusObj.type].identifier.forEach(obj => {
+                    if (obj.typeof == "date")
+                        obj.value = moment(obj.value).format("h:mm A")
+                    returnStatusObj.message = returnStatusObj.message.replace(obj.name, obj.value)
+                    returnStatusObj.note = {
+                        En: (returnStatusObj.note.En && returnStatusObj.note.En != "") ? returnStatusObj.note.En.replace(obj.name, obj.value) : "",
+                        Ar: (returnStatusObj.note.Ar && returnStatusObj.note.Ar != "") ? returnStatusObj.note.Ar.replace(obj.name, obj.value) : ""
+                    }
+                })
+            } else
+                returnStatusObj.identifier = []
+        }
+    } else {
+        returnStatusObj.message = customeMessage ? customeMessage : Constant.MESSAGE_CONSTANT.STATUS_MSG[Constant.ENV_CONFIG.SERVER.BRAND].DEFAULT_ERROR.En;
+        returnStatusObj.attributes = []
+        returnStatusObj.heading = {}
+        returnStatusObj.note = {}
+        returnStatusObj.identifier = []
+    }
+    return returnStatusObj
+}
 
 export let sendSuccess = function (statusObj, language, data) {
     console.log(__filename, "data", JSON.stringify(data), true)

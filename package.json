@@ -36,6 +36,7 @@
     "koa-static": "^5.0.0",
     "koa-swagger-decorator": "^1.7.4",
     "koa2-swagger-ui": "^5.2.0",
+    "moment": "^2.29.1",
     "mongodb": "^3.6.10",
     "mongoose": "^5.12.2",
     "mongoose-update-if-current": "^1.4.0",

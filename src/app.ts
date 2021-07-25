@@ -6,7 +6,6 @@ import * as Router from "koa-router";
 //importing routes (localhost:3000/demo/home)
 import { bootstrap } from './utils/bootstrap';
 import middleware from './middlewares';
-import { routes } from "./routes/router";
 import route from './routes';
 
 const app = new Koa();
@@ -16,23 +15,12 @@ const router = new Router();
 app.use(middleware());
 
 //customMiddleware's
-app.use(routes);
 // @ts-ignore
 app.use(route.routes());
 app.proxy = true;
 
-
-// app.use(
-//     koaSwagger({
-//         routePrefix: '/swagger', // host at /swagger instead of default /docs
-//         swaggerOptions: {
-//             url: '', // example path to json
-//         },
-//     }),
-// );
-
 //routes
-app.use(router.routes()).use(router.allowedMethods());
+// app.use(router.routes()).use(router.allowedMethods());
 
 
 export const start = (async () => {
